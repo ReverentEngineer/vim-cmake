@@ -1,0 +1,21 @@
+*cmake.txt* A CMake wrapper
+
+Author: Jeff Caffrey-Hill <https://jeff.caffreyhill.com/>
+License: MIT License
+
+INTRODUCTION				*cmake*
+
+Whenever you are in a CMake project, a set of commands are enabled to allow you to run basic commands and the cmake build wrapper is set for the |makeprg|.
+
+COMMANDS				*cmake-commands*
+
+					*:CMake*
+:CMake [args]		Run an arbitrary cmake command using |g:cmake_build_dir|
+			as the build directory and passing the arguments as
+			well as |g:cmake_args| to the command.
+
+					*:CTest*
+:CTest [args]           Runs an arbitrary ctest command using |g:ccmake_build_dir:]
+			as the test directory and passing both the arguments as
+			well as |g:ctest_args| to the command.
+
