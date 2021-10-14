@@ -61,6 +61,6 @@ endfunction
 
 function! cmake#ctest(...) abort
   if cmake#is_cmake()
-     echom"!ctest --test-dir ".b:cmake_build_dir." ".g:ctest_args." ".join(a:000, " ") 
+     execute "!ctest --test-dir ".b:cmake_build_dir." ".g:ctest_args." ".join(a:000, " ") 
   endif
 endfunction
