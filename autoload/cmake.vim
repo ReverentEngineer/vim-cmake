@@ -59,15 +59,28 @@ function! cmake#setup() abort
 endfunction
 
 function! cmake#configure(...) abort
-  echom a:000
-  if !exists("b:cmake_build_dir")
-     let b:cmake_build_dir = g:default_cmake_build_dir
+  if cmake#is_cmake()
+    call cmake#setup()
+    if !exists("b:cmake_build_dir")
+       let b:cmake_build_dir = g:default_cmake_build_dir
+    endif
+    let cmake_command = "!cmake ".g:cmake_args." ".join(a:000, " ")." -S . -B ".b:cmake_build_dir 
+	if exists("g:loaded_dispatch")
+		execute "Dispatch ".cmake_command
+	else
+		execute "".cmake_command.""
+	endif
   endif
-  execute "!cmake ".g:cmake_args." ".join(a:000, " ")." -S . -B ".b:cmake_build_dir 
 endfunction
 
 function! cmake#ctest(...) abort
   if cmake#is_cmake()
-     execute "!ctest --test-dir ".b:cmake_build_dir." ".g:ctest_args." ".join(a:000, " ") 
+	call cmake#setup()
+  	let ctest_command ="!ctest --test-dir ".b:cmake_build_dir." ".g:ctest_args." ".join(a:000, " ") 
+	if exists("g:loaded_dispatch")
+		execute "Dispatch ".ctest_command
+	else
+		execute "".ctest_command.""
+	endif
   endif
 endfunction
