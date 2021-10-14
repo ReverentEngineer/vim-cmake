@@ -6,6 +6,10 @@ endif
 
 let g:autoloaded_cmake = 1
 
+if !exists("g:default_cmake_build_dir")
+	let g:default_cmake_build_dir = "build"
+endif
+
 if !exists("g:ctest_args")
   let g:ctest_args = ""
 endif
@@ -46,6 +50,9 @@ function! cmake#setup() abort
   if cmake#is_cmake()
     if !exists("b:cmake_build_dir")
     	let b:cmake_build_dir = cmake#find_build_dir()
+		if !b:cmake_build_dir
+			let b:cmake_build_dir = g:default_cmake_build_dir
+		endif
     endif
     let &makeprg='cmake --build '.b:cmake_build_dir.' --'
   endif
@@ -54,7 +61,7 @@ endfunction
 function! cmake#configure(...) abort
   echom a:000
   if !exists("b:cmake_build_dir")
-     let b:cmake_build_dir = "build"
+     let b:cmake_build_dir = g:default_cmake_build_dir
   endif
   execute "!cmake ".g:cmake_args." ".join(a:000, " ")." -S . -B ".b:cmake_build_dir 
 endfunction
